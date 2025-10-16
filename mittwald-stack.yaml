@@ -5,8 +5,8 @@ services:
     image: "newsensesmax/shopware-web:6.6.7.0"
     description: "Shopware 6.6.7.0 Web Server"
     ports:
-      - "80/tcp"
-      - "443/tcp"
+      - "80:80"
+      - "443:443"
     restart: unless-stopped
     environment:
       - PHP_VERSION=8.2
@@ -25,7 +25,7 @@ services:
     image: "newsensesmax/shopware-database:6.6.7.0"
     description: "Shopware Database"
     ports:
-      - "3306/tcp"
+      - "3306:3306"
     restart: unless-stopped
     environment:
       - MYSQL_ROOT_PASSWORD={{ .Env.MYSQL_ROOT_PASSWORD }}
