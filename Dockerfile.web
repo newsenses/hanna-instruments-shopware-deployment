@@ -29,8 +29,8 @@ COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 # Skip composer install since we have a complete installation
 # RUN composer install --no-dev --optimize-autoloader
 
-# Install MySQL client
-RUN apt-get update && apt-get install -y mysql-client && rm -rf /var/lib/apt/lists/*
+# Skip MySQL client install - we'll use PHP to connect to database
+# RUN apt-get update && apt-get install -y mariadb-client && rm -rf /var/lib/apt/lists/*
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html \
