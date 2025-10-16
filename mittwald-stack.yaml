@@ -1,3 +1,5 @@
+version: "3.8"
+
 services:
   web:
     image: "newsensesmax/shopware-web:6.6.7.0"
@@ -5,14 +7,15 @@ services:
     ports:
       - "80/tcp"
       - "443/tcp"
-    envs:
-      PHP_VERSION: "8.2"
-      COMPOSER_MEMORY_LIMIT: "-1"
-      DATABASE_URL: "mysql://{{ .Env.MYSQL_USER }}:{{ .Env.MYSQL_PASSWORD }}@database:3306/{{ .Env.MYSQL_DATABASE }}"
-      APP_SECRET: "{{ .Env.SHOPWARE_SECRET }}"
-      APP_ENV: "prod"
-      LOCK_DSN: "flock"
-      SHOPWARE_STORE_SKIP_DOMAIN_VALIDATION: "true"
+    restart: unless-stopped
+    environment:
+      - PHP_VERSION=8.2
+      - COMPOSER_MEMORY_LIMIT=-1
+      - DATABASE_URL=mysql://{{ .Env.MYSQL_USER }}:{{ .Env.MYSQL_PASSWORD }}@database:3306/{{ .Env.MYSQL_DATABASE }}
+      - APP_SECRET={{ .Env.SHOPWARE_SECRET }}
+      - APP_ENV=prod
+      - LOCK_DSN=flock
+      - SHOPWARE_STORE_SKIP_DOMAIN_VALIDATION=true
     volumes:
       - "shopware-files:/var/www/html"
     depends_on:
@@ -23,11 +26,12 @@ services:
     description: "Shopware Database"
     ports:
       - "3306/tcp"
-    envs:
-      MYSQL_ROOT_PASSWORD: "{{ .Env.MYSQL_ROOT_PASSWORD }}"
-      MYSQL_DATABASE: "{{ .Env.MYSQL_DATABASE }}"
-      MYSQL_USER: "{{ .Env.MYSQL_USER }}"
-      MYSQL_PASSWORD: "{{ .Env.MYSQL_PASSWORD }}"
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD={{ .Env.MYSQL_ROOT_PASSWORD }}
+      - MYSQL_DATABASE={{ .Env.MYSQL_DATABASE }}
+      - MYSQL_USER={{ .Env.MYSQL_USER }}
+      - MYSQL_PASSWORD={{ .Env.MYSQL_PASSWORD }}
     volumes:
       - "db-data:/var/lib/mysql"
 
