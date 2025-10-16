@@ -26,8 +26,8 @@ COPY shopware-files/ /var/www/html/
 COPY shopware-database.sql /var/www/html/
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 
-# Install dependencies
-RUN composer install --no-dev --optimize-autoloader
+# Skip composer install since we have a complete installation
+# RUN composer install --no-dev --optimize-autoloader
 
 # Install MySQL client
 RUN apt-get update && apt-get install -y mysql-client && rm -rf /var/lib/apt/lists/*
