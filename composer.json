@@ -1,0 +1,51 @@
+{
+    "name": "hanna-instruments/shopware-deployment",
+    "type": "project",
+    "license": "MIT",
+    "description": "Hanna Instruments Shopware 6.6.7.0 Docker Deployment Package",
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true,
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true,
+            "symfony/flex": true,
+            "symfony/runtime": true
+        }
+    },
+    "prefer-stable": true,
+    "scripts": {
+        "auto-scripts": {
+            "assets:install": "symfony-cmd"
+        },
+        "post-install-cmd": [
+            "@auto-scripts"
+        ],
+        "post-update-cmd": [
+            "@auto-scripts"
+        ]
+    },
+    "require": {
+        "php": ">=8.1",
+        "shopware/administration": "6.6.7.0",
+        "shopware/core": "6.6.7.0",
+        "shopware/elasticsearch": "6.6.7.0",
+        "shopware/storefront": "6.6.7.0",
+        "shopware/conflicts": "~0.3.0",
+        "symfony/flex": "^2.0",
+        "symfony/runtime": "^6.0"
+    },
+    "require-dev": {
+        "symfony/debug-bundle": "^6.0",
+        "symfony/stopwatch": "^6.0",
+        "symfony/web-profiler-bundle": "^6.0"
+    },
+    "conflict": {
+        "symfony/symfony": "*"
+    },
+    "extra": {
+        "symfony": {
+            "allow-contrib": false,
+            "require": "6.0.*"
+        }
+    }
+}

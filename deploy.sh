@@ -64,17 +64,19 @@ docker pull $DOCKER_USERNAME/shopware-web:$SHOPWARE_VERSION
 docker pull $DOCKER_USERNAME/shopware-database:$SHOPWARE_VERSION
 log_success "Docker Images geladen"
 
-# Shopware-Dateien herunterladen
-log_info "Lade Shopware-Dateien..."
-if [ ! -f "shopware-files.tar.gz" ]; then
-    log_warning "shopware-files.tar.gz nicht gefunden. Bitte manuell hinzufügen."
-    log_info "Erstelle leeres Verzeichnis..."
-    mkdir -p shopware-files
-else
+# Shopware-Dateien herunterladen (falls vorhanden)
+log_info "Prüfe Shopware-Dateien..."
+if [ -f "shopware-files.tar.gz" ]; then
     log_info "Entpacke Shopware-Dateien..."
     tar -xzf shopware-files.tar.gz
+    log_success "Shopware-Dateien entpackt"
+else
+    log_info "Keine Shopware-Dateien gefunden - erstelle leere Installation..."
+    mkdir -p shopware-files
+    # Erstelle minimale Shopware-Struktur
+    mkdir -p shopware-files/{bin,config,custom,public,src,var}
+    log_success "Leere Shopware-Struktur erstellt"
 fi
-log_success "Shopware-Dateien bereit"
 
 # Datenbank herunterladen
 log_info "Lade Datenbank..."
@@ -117,12 +119,34 @@ if [ -s "shopware-database.sql" ]; then
     docker exec -i shopware_database mysql -u root -proot shopware < shopware-database.sql
     log_success "Datenbank importiert"
 else
-    log_warning "Keine Datenbank-Datei gefunden - verwende leere Installation"
+    log_info "Keine Datenbank-Datei gefunden - verwende leere Installation"
+    log_info "Erstelle leere Datenbank..."
+    docker exec shopware_database mysql -u root -proot -e "CREATE DATABASE IF NOT EXISTS shopware;"
+    log_success "Leere Datenbank erstellt"
+fi
+
+# Composer Dependencies installieren
+log_info "Installiere Composer Dependencies..."
+if [ -f "composer.json" ]; then
+    docker exec shopware_web bash -c "cd /var/www/html && cp composer.json . && composer install --no-interaction --no-dev"
+    log_success "Composer Dependencies installiert"
+else
+    log_warning "composer.json nicht gefunden - verwende Standard-Installation"
+fi
+
+# Environment konfigurieren
+log_info "Konfiguriere Environment..."
+if [ -f "env.template" ]; then
+    docker exec shopware_web bash -c "cd /var/www/html && cp env.template .env"
+    # Domain in .env anpassen
+    docker exec shopware_web bash -c "cd /var/www/html && sed -i 's/your-domain.com/$DOMAIN_NAME/g' .env"
+    log_success "Environment konfiguriert"
+else
+    log_warning "env.template nicht gefunden - verwende Standard-Konfiguration"
 fi
 
 # Assets installieren
 log_info "Installiere Assets..."
-docker exec shopware_web bash -c "cd /var/www/html && composer install --no-interaction --no-dev"
 docker exec shopware_web bash -c "cd /var/www/html && bin/console assets:install"
 docker exec shopware_web bash -c "cd /var/www/html && bin/console cache:clear"
 log_success "Assets installiert"
