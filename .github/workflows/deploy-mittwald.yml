@@ -1,0 +1,29 @@
+name: Deploy Shopware to Mittwald
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    env:
+      MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+      MYSQL_DATABASE: "shopware"
+      MYSQL_USER: "shopware"
+      MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+      SHOPWARE_SECRET: ${{ secrets.SHOPWARE_SECRET }}
+
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v4
+
+      - name: Deploy to Mittwald
+        uses: mittwald/deploy-container-action@v1
+        with:
+          api_token: ${{ secrets.MITTWALD_API_TOKEN }}
+          stack_id: "e26a6f4e-8bd2-422f-b41b-d8bce088cf85"
+          stack_file: "${{ github.workspace }}/mittwald-stack.yaml"
+          skip_recreation: "database"
