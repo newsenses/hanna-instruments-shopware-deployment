@@ -33,7 +33,7 @@ log_error() {
 # Konfiguration
 DOMAIN_NAME=${1:-"localhost"}
 PROJECT_NAME="shopware-$(date +%Y%m%d-%H%M%S)"
-DOCKER_USERNAME="hannainstruments"
+DOCKER_USERNAME="newsensesmax"
 SHOPWARE_VERSION="6.6.7.0"
 
 echo "🚀 Shopware $SHOPWARE_VERSION Deployment"

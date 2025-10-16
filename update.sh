@@ -31,7 +31,7 @@ log_error() {
 
 # Konfiguration
 NEW_VERSION=${1:-"6.6.10.1"}
-DOCKER_USERNAME="hannainstruments"
+DOCKER_USERNAME="newsensesmax"
 CURRENT_VERSION="6.6.7.0"
 
 echo "🔄 Shopware Update Script"

@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   web:
-    image: hannainstruments/shopware-web:6.6.7.0
+    image: newsensesmax/shopware-web:6.6.7.0
     container_name: shopware_web
     ports:
       - "80:80"
@@ -19,7 +19,7 @@ services:
     restart: unless-stopped
 
   database:
-    image: hannainstruments/shopware-database:6.6.7.0
+    image: newsensesmax/shopware-database:6.6.7.0
     container_name: shopware_database
     ports:
       - "3307:3306"
