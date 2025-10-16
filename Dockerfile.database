@@ -1,0 +1,14 @@
+FROM mariadb:10.11
+
+# Set environment variables
+ENV MYSQL_ROOT_PASSWORD=root
+ENV MYSQL_DATABASE=shopware
+ENV MYSQL_USER=shopware
+ENV MYSQL_PASSWORD=shopware
+
+# Copy custom configuration if needed
+# COPY my.cnf /etc/mysql/conf.d/
+
+EXPOSE 3306
+
+CMD ["mysqld"]

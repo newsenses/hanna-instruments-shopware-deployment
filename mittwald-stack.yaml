@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   web:
-    image: "newsensesmax/shopware-web:6.6.7.0"
+    image: ghcr.io/newsenses/hanna-instruments-shopware-deployment/web:${IMAGE_TAG}
     description: "Shopware 6.6.7.0 Web Server"
     ports:
       - "80:80"
@@ -22,7 +22,7 @@ services:
       - "database"
 
   database:
-    image: "newsensesmax/shopware-database:6.6.7.0"
+    image: ghcr.io/newsenses/hanna-instruments-shopware-deployment/database:${IMAGE_TAG}
     description: "Shopware Database"
     ports:
       - "3306:3306"
