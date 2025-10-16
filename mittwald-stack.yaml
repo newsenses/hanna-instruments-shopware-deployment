@@ -5,8 +5,8 @@ services:
     image: ghcr.io/newsenses/hanna-instruments-shopware-deployment/web:${IMAGE_TAG}
     description: "Shopware 6.6.7.0 Web Server"
     ports:
-      - "80:80"
-      - "443:443"
+      - "8080:80"
+      - "8443:443"
     restart: unless-stopped
     environment:
       - PHP_VERSION=8.2
