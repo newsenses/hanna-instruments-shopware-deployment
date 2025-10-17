@@ -1,5 +1,24 @@
 #!/bin/bash
 
+echo "Starting Shopware container..."
+
+# Create a simple test page first
+echo "Creating test page..."
+cat > /var/www/html/public/test.html << 'EOF'
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Page</title>
+</head>
+<body>
+    <h1>✅ Container läuft!</h1>
+    <p>Domain: <?php echo $_SERVER['HTTP_HOST'] ?? 'localhost'; ?></p>
+    <p>Time: <?php echo date('Y-m-d H:i:s'); ?></p>
+    <p>PHP Version: <?php echo phpversion(); ?></p>
+</body>
+</html>
+EOF
+
 # Wait for database to be ready using PHP
 echo "Waiting for database to be ready..."
 while ! php -r "

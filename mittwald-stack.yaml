@@ -3,10 +3,11 @@ version: "3.8"
 services:
   web:
     image: ghcr.io/newsenses/hanna-instruments-shopware-deployment/web:${IMAGE_TAG}
+    container_name: shopware-web-production  # Fester Name
     description: "Shopware 6.6.7.0 Web Server"
     ports:
-      - "8080:80"
-      - "8443:443"
+      - "3000:80"
+      - "3001:443"
     restart: unless-stopped
     environment:
       - PHP_VERSION=8.2
@@ -23,6 +24,7 @@ services:
 
   database:
     image: ghcr.io/newsenses/hanna-instruments-shopware-deployment/database:${IMAGE_TAG}
+    container_name: shopware-database-production  # Fester Name
     description: "Shopware Database"
     ports:
       - "3306:3306"
