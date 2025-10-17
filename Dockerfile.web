@@ -37,10 +37,9 @@ RUN mkdir -p /var/www/html/var \
     && chmod +x /usr/local/bin/entrypoint.sh \
     && chown -R www-data:www-data /var/www/html
 
-# Configure Apache
+# Configure Apache (nur HTTP für Debugging)
 RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|g' /etc/apache2/sites-available/000-default.conf \
-    && a2enmod rewrite \
-    && a2enmod ssl
+    && a2enmod rewrite
 
 # Create self-signed certificate
 RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
