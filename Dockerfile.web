@@ -61,6 +61,7 @@ RUN echo '<VirtualHost *:443>' > /etc/apache2/sites-available/hannainst-ssl.conf
 # Set PHP memory limit
 RUN echo 'memory_limit = 512M' > /usr/local/etc/php/conf.d/memory-limit.ini
 
-EXPOSE 80 443
+EXPOSE 80
 
+# Einfacher Start wie bei Spiegsamap
 CMD ["/usr/local/bin/entrypoint.sh"]

@@ -6,9 +6,8 @@ services:
     container_name: shopware-web-production  # Fester Name
     description: "Shopware 6.6.7.0 Web Server"
     ports:
-      - "3000:80"
-      # SSL wird von Mittwald nginx gehandhabt
-      # Container läuft nur auf HTTP
+      - "80:80"
+      # Direkt Port 80 wie bei Spiegsamap
     restart: unless-stopped
     environment:
       - PHP_VERSION=8.2

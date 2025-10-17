@@ -54,5 +54,6 @@ else
     "
 fi
 
-# Start Apache
+# Start Apache directly (wie bei Spiegsamap)
+echo "Starting Apache..."
 exec apache2-foreground
