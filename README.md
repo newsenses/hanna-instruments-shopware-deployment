@@ -1,10 +1,10 @@
-# 🚀 Shopware 6.6.7.0 Deployment Package
+# 🚀 Shopware 6.6.10.1 LTS Deployment Package
 
-Ein vollständiges Deployment-Paket für Shopware 6.6.7.0 mit Docker Hub Integration.
+Ein vollständiges Deployment-Paket für Shopware 6.6.10.1 LTS mit Docker Hub Integration.
 
 ## 📦 Was ist enthalten
 
-- **Docker Images** auf Docker Hub: `hannainstruments/shopware-web:6.6.7.0` und `hannainstruments/shopware-database:6.6.7.0`
+- **Docker Images** auf Docker Hub: `hannainstruments/shopware-web:6.6.10.1 LTS` und `hannainstruments/shopware-database:6.6.10.1 LTS`
 - **Automatische Deployment-Scripts** für verschiedene Umgebungen
 - **Mittwald Studio Optimierung** mit speziellen Konfigurationen
 - **Update- und Rollback-Funktionalität** für Wartung
@@ -58,13 +58,13 @@ Die Scripts passen automatisch die Domain in der Docker Compose Konfiguration an
 
 ## 🐳 Docker Hub Images
 
-- **Web Container**: `hannainstruments/shopware-web:6.6.7.0`
+- **Web Container**: `hannainstruments/shopware-web:6.6.10.1 LTS`
   - PHP 8.2 + Apache
   - Alle notwendigen Extensions
   - Composer installiert
   - SSL-Konfiguration
 
-- **Database Container**: `hannainstruments/shopware-database:6.6.7.0`
+- **Database Container**: `hannainstruments/shopware-database:6.6.10.1 LTS`
   - MariaDB 10.11
   - Optimierte Konfiguration
   - Root-Zugang: `root/root`

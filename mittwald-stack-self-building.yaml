@@ -1,0 +1,44 @@
+version: "3.8"
+
+services:
+  web:
+    image: ghcr.io/newsenses/hanna-instruments-shopware-deployment/self-building:${IMAGE_TAG}
+    container_name: shopware-web-self-building
+    description: "Shopware 6.6.10.1 LTS - Self Building"
+    ports:
+      - "80:80"
+    restart: unless-stopped
+    environment:
+      - PHP_VERSION=8.2
+      - COMPOSER_MEMORY_LIMIT=-1
+      - DATABASE_URL=mysql://{{ .Env.MYSQL_USER }}:{{ .Env.MYSQL_PASSWORD }}@database:3306/{{ .Env.MYSQL_DATABASE }}
+      - APP_SECRET={{ .Env.SHOPWARE_SECRET }}
+      - APP_ENV=prod
+      - LOCK_DSN=flock
+      - SHOPWARE_STORE_SKIP_DOMAIN_VALIDATION=true
+    volumes:
+      - "shopware-files:/var/www/html"
+    depends_on:
+      - "database"
+
+  database:
+    image: mysql:8.0
+    container_name: shopware-database-self-building
+    description: "Shopware Database - Self Building"
+    ports:
+      - "3306:3306"
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD={{ .Env.MYSQL_ROOT_PASSWORD }}
+      - MYSQL_DATABASE={{ .Env.MYSQL_DATABASE }}
+      - MYSQL_USER={{ .Env.MYSQL_USER }}
+      - MYSQL_PASSWORD={{ .Env.MYSQL_PASSWORD }}
+    volumes:
+      - "db-data:/var/lib/mysql"
+      - "./shopware-database.sql:/docker-entrypoint-initdb.d/01-shopware.sql"
+
+volumes:
+  shopware-files:
+    name: shopware-files-volume
+  db-data:
+    name: shopware-db-volume
