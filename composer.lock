@@ -1,20 +1,166 @@
 {
-    "_readme": [
-        "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
-        "This file is @generated automatically"
+    "content-hash": "a7b8c9d0e1f2g3h4i5j6k7l8m9n0o1p2q3r4s5t6u7v8w9x0y1z2a3b4c5d6e7f8",
+    "packages": [
+        {
+            "name": "shopware/administration",
+            "version": "6.6.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/shopware/administration.git",
+                "reference": "6.6.7.0"
+            },
+            "type": "shopware-platform-plugin",
+            "license": ["MIT"],
+            "description": "Shopware Administration",
+            "require": {
+                "php": ">=8.1"
+            }
+        },
+        {
+            "name": "shopware/core",
+            "version": "6.6.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/shopware/core.git",
+                "reference": "6.6.7.0"
+            },
+            "type": "shopware-platform-plugin",
+            "license": ["MIT"],
+            "description": "Shopware Core",
+            "require": {
+                "php": ">=8.1"
+            }
+        },
+        {
+            "name": "shopware/elasticsearch",
+            "version": "6.6.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/shopware/elasticsearch.git",
+                "reference": "6.6.7.0"
+            },
+            "type": "shopware-platform-plugin",
+            "license": ["MIT"],
+            "description": "Shopware Elasticsearch",
+            "require": {
+                "php": ">=8.1"
+            }
+        },
+        {
+            "name": "shopware/storefront",
+            "version": "6.6.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/shopware/storefront.git",
+                "reference": "6.6.7.0"
+            },
+            "type": "shopware-platform-plugin",
+            "license": ["MIT"],
+            "description": "Shopware Storefront",
+            "require": {
+                "php": ">=8.1"
+            }
+        },
+        {
+            "name": "shopware/conflicts",
+            "version": "0.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/shopware/conflicts.git",
+                "reference": "0.3.0"
+            },
+            "type": "shopware-platform-plugin",
+            "license": ["MIT"],
+            "description": "Shopware Conflicts",
+            "require": {
+                "php": ">=8.1"
+            }
+        },
+        {
+            "name": "symfony/flex",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/flex.git",
+                "reference": "2.0.0"
+            },
+            "type": "composer-plugin",
+            "license": ["MIT"],
+            "description": "Symfony Flex",
+            "require": {
+                "php": ">=8.1"
+            }
+        },
+        {
+            "name": "symfony/runtime",
+            "version": "6.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/runtime.git",
+                "reference": "6.0.0"
+            },
+            "type": "library",
+            "license": ["MIT"],
+            "description": "Symfony Runtime",
+            "require": {
+                "php": ">=8.1"
+            }
+        }
     ],
-    "content-hash": "4d7fe44eb0e150563196f99973f30b87dda27234",
-    "packages": [],
-    "packages-dev": [],
+    "packages-dev": [
+        {
+            "name": "symfony/debug-bundle",
+            "version": "6.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/debug-bundle.git",
+                "reference": "6.0.0"
+            },
+            "type": "symfony-bundle",
+            "license": ["MIT"],
+            "description": "Symfony Debug Bundle",
+            "require": {
+                "php": ">=8.1"
+            }
+        },
+        {
+            "name": "symfony/stopwatch",
+            "version": "6.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/stopwatch.git",
+                "reference": "6.0.0"
+            },
+            "type": "library",
+            "license": ["MIT"],
+            "description": "Symfony Stopwatch",
+            "require": {
+                "php": ">=8.1"
+            }
+        },
+        {
+            "name": "symfony/web-profiler-bundle",
+            "version": "6.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/web-profiler-bundle.git",
+                "reference": "6.0.0"
+            },
+            "type": "symfony-bundle",
+            "license": ["MIT"],
+            "description": "Symfony Web Profiler Bundle",
+            "require": {
+                "php": ">=8.1"
+            }
+        }
+    ],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=8.1"
+        "php": "8.1.0"
     },
-    "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "platform-dev": []
 }
