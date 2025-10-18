@@ -30,9 +30,7 @@
         "shopware/core": "6.6.7.0",
         "shopware/elasticsearch": "6.6.7.0",
         "shopware/storefront": "6.6.7.0",
-        "shopware/conflicts": "~0.3.0",
-        "symfony/flex": "^2.0",
-        "symfony/runtime": "^6.0"
+        "shopware/conflicts": "~0.3.0"
     },
     "require-dev": {
         "symfony/debug-bundle": "^6.0",
