@@ -4,8 +4,8 @@ services:
     container_name: shopware_database_prod
     environment:
       MYSQL_DATABASE: shopware_prod
-      MYSQL_PASSWORD: B261Px+gvpE4M9MS/FuzWvJvJU+cJWe1wm/A89t8VTg=
-      MYSQL_ROOT_PASSWORD: VEeyvStMBE5JlxgQTVuFFbUr7PcVy9MAkck90S8IJko=
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_USER: shopware_prod
     image: mariadb:10.11
     networks:
@@ -24,8 +24,8 @@ services:
       PMA_HOST: database
       PMA_PORT: 3306
       PMA_USER: shopware_prod
-      PMA_PASSWORD: B261Px+gvpE4M9MS/FuzWvJvJU+cJWe1wm/A89t8VTg=
-      MYSQL_ROOT_PASSWORD: VEeyvStMBE5JlxgQTVuFFbUr7PcVy9MAkck90S8IJko=
+      PMA_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     image: phpmyadmin/phpmyadmin:latest
     networks:
       - shopware

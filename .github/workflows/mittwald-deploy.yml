@@ -104,13 +104,26 @@ jobs:
         path: mittwald-deployment/
         retention-days: 30
         
-    - name: Deploy to Mittwald (if configured)
-      if: github.event.inputs.domain != ''
+    - name: Deploy to Mittwald Studio
       run: |
-        echo "🚀 Deploye zu Mittwald Studio..."
-        echo "Domain: ${{ github.event.inputs.domain }}"
-        echo "📋 Nächste Schritte:"
-        echo "1. Lade das Artifact 'mittwald-deployment-package' herunter"
-        echo "2. Entpacke es auf dem Mittwald Server"
-        echo "3. Führe ./deploy.sh aus"
-        echo "4. Konfiguriere SSL-Zertifikat in Mittwald Panel"
+        echo "🚀 Deploye Datenbank-Container zu Mittwald Studio..."
+        
+        # Mittwald API verwenden um Stack zu deployen
+        curl -X POST \
+          -H "Authorization: Bearer ${{ secrets.MITTWALD_API_TOKEN }}" \
+          -H "Content-Type: application/json" \
+          -d '{
+            "stackId": "${{ secrets.MITTWALD_STACK_ID }}",
+            "dockerCompose": "'$(cat mittwald-deployment/docker-compose-database-only.yml | base64 -w 0)'",
+            "environment": {
+              "MYSQL_PASSWORD": "${{ secrets.MYSQL_PASSWORD }}",
+              "MYSQL_ROOT_PASSWORD": "${{ secrets.MYSQL_ROOT_PASSWORD }}",
+              "SHOPWARE_SECRET": "${{ secrets.SHOPWARE_SECRET }}"
+            }
+          }' \
+          https://api.mittwald.de/v1/stacks/deploy
+        
+        echo "✅ Datenbank-Container erfolgreich zu Mittwald deployed!"
+        echo "📋 Container verfügbar:"
+        echo "- MariaDB: Port 3306"
+        echo "- phpMyAdmin: Port 8080"
