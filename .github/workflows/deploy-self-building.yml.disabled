@@ -71,3 +71,4 @@ jobs:
           stack_id: "e26a6f4e-8bd2-422f-b41b-d8bce088cf85"
           stack_file: "${{ github.workspace }}/mittwald-stack-self-building.yaml"
           skip_recreation: "database"
+
