@@ -1,0 +1,42 @@
+name: shopware-database-only
+services:
+  database:
+    container_name: shopware_database_prod
+    environment:
+      MYSQL_DATABASE: shopware_prod
+      MYSQL_PASSWORD: B261Px+gvpE4M9MS/FuzWvJvJU+cJWe1wm/A89t8VTg=
+      MYSQL_ROOT_PASSWORD: VEeyvStMBE5JlxgQTVuFFbUr7PcVy9MAkck90S8IJko=
+      MYSQL_USER: shopware_prod
+    image: mariadb:10.11
+    networks:
+      - shopware
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./shopware-database-import.sql.gz:/docker-entrypoint-initdb.d/import.sql.gz:ro
+
+  phpmyadmin:
+    container_name: shopware_phpmyadmin
+    depends_on:
+      - database
+    environment:
+      PMA_HOST: database
+      PMA_PORT: 3306
+      PMA_USER: shopware_prod
+      PMA_PASSWORD: B261Px+gvpE4M9MS/FuzWvJvJU+cJWe1wm/A89t8VTg=
+      MYSQL_ROOT_PASSWORD: VEeyvStMBE5JlxgQTVuFFbUr7PcVy9MAkck90S8IJko=
+    image: phpmyadmin/phpmyadmin:latest
+    networks:
+      - shopware
+    ports:
+      - "8080:80"
+
+networks:
+  shopware:
+    name: shopware-database-network
+    driver: bridge
+
+volumes:
+  db_data:
+    name: shopware-database-data
