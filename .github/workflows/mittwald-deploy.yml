@@ -37,8 +37,24 @@ jobs:
         retention-days: 30
         
     - name: Deploy to Mittwald Studio
-      uses: mittwald/deploy-container-action@v1.0.1
-      with:
-        api_token: ${{ secrets.MITTWALD_API_TOKEN }}
-        stack_id: ${{ secrets.MITTWALD_STACK_ID }}
-        stack_file: "${{ github.workspace }}/configs/stack.yaml"
+      run: |
+        echo "🚀 Deploye zu Mittwald Studio..."
+        
+        # Entferne mögliche Newlines aus der Stack-ID
+        STACK_ID=$(echo "${{ secrets.MITTWALD_STACK_ID }}" | tr -d '\n\r')
+        echo "Bereinigte Stack-ID: $STACK_ID"
+        
+        # Verwende die Mittwald API direkt
+        curl -X POST \
+          -H "Authorization: Bearer ${{ secrets.MITTWALD_API_TOKEN }}" \
+          -H "Content-Type: application/json" \
+          -d "{
+            \"stackId\": \"$STACK_ID\",
+            \"stackFile\": \"$(cat configs/stack.yaml | base64 -w 0)\"
+          }" \
+          https://api.mittwald.de/v2/stacks/$STACK_ID/deploy
+        
+        echo "✅ Datenbank-Container erfolgreich zu Mittwald deployed!"
+        echo "📋 Container verfügbar:"
+        echo "- MariaDB: Port 3306"
+        echo "- phpMyAdmin: Port 8080"
