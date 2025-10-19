@@ -1,0 +1,45 @@
+version: "3.8"
+
+services:
+  database:
+    image: mariadb:10.11
+    description: "Hanna Instruments Shopware Database"
+    ports:
+      - "3306:3306"
+    restart: unless-stopped
+    environment:
+      - MYSQL_DATABASE=shopware_prod
+      - MYSQL_USER=shopware_prod
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./shopware-database-import.sql.gz:/docker-entrypoint-initdb.d/import.sql.gz:ro
+    networks:
+      - shopware
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    description: "Hanna Instruments Database Management"
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+    environment:
+      - PMA_HOST=database
+      - PMA_PORT=3306
+      - PMA_USER=shopware_prod
+      - PMA_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    depends_on:
+      - database
+    networks:
+      - shopware
+
+networks:
+  shopware:
+    name: shopware-database-network
+    driver: bridge
+
+volumes:
+  db_data:
+    name: shopware-database-data

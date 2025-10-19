@@ -1,17 +1,13 @@
-name: Deploy to Mittwald Studio
+name: Hanna Instruments - Database Deployment to Mittwald
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
     paths:
       - 'shopware-database-deployment/**'
+      - 'configs/**'
       - '.github/workflows/mittwald-deploy.yml'
   workflow_dispatch:
-    inputs:
-      domain:
-        description: 'Domain name for deployment'
-        required: true
-        default: 'hanna.projectspace.digital'
 
 jobs:
   deploy:
@@ -21,7 +17,6 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
       
-        
     - name: Prepare Database-only deployment
       run: |
         echo "📦 Bereite Datenbank-Deployment für Mittwald vor..."
@@ -32,70 +27,7 @@ jobs:
         # Kopiere das bereits erstellte Datenbank-Deployment-Paket
         cp -r shopware-database-deployment/* mittwald-deployment/
         
-        # Erstelle zusätzlich einen frischen Datenbank-Dump (falls gewünscht)
-        echo "📊 Erstelle frischen Datenbank-Dump..."
-        # Hier könnte ein frischer Export aus dem laufenden Container stehen
-        
         echo "✅ Datenbank-Deployment vorbereitet"
-        
-    - name: Create Mittwald deployment package
-      run: |
-        echo "📦 Erstelle Mittwald-Deployment-Paket..."
-        
-        # Erstelle README für Mittwald
-        cat > mittwald-deployment/README.md << EOF
-        # Hanna Instruments Shopware 6.6.10.1 LTS - Database Deployment
-        
-        ## 🚀 Schnellstart
-        
-        \`\`\`bash
-        # 1. Dateien auf Mittwald Server hochladen
-        # 2. In das Verzeichnis wechseln
-        cd mittwald-deployment
-        
-        # 3. Datenbank-Container starten
-        docker-compose -f docker-compose-database-only.yml up -d
-        
-        # 4. .env Datei in html/shopware/ anpassen:
-        DATABASE_URL="mysql://shopware_prod:B261Px+gvpE4M9MS/FuzWvJvJU+cJWe1wm/A89t8VTg=@localhost:3306/shopware_prod"
-        \`\`\`
-        
-        ## 📋 Services
-        
-        - **Database**: shopware_database_prod (MariaDB 10.11, Port 3306)
-        - **phpMyAdmin**: shopware_phpmyadmin (Web-Interface, Port 8080)
-        
-        ## 🔧 Verwaltung
-        
-        \`\`\`bash
-        # Logs anzeigen
-        docker-compose -f docker-compose-database-only.yml logs -f
-        
-        # Services stoppen
-        docker-compose -f docker-compose-database-only.yml down
-        
-        # Services neu starten
-        docker-compose -f docker-compose-database-only.yml restart
-        \`\`\`
-        
-        ## 🌐 Domain
-        
-        Domain: ${{ github.event.inputs.domain || 'hanna.projectspace.digital' }}
-        
-        ## 📊 Datenbank
-        
-        - Host: localhost
-        - Database: shopware_prod
-        - User: shopware_prod
-        - Password: B261Px+gvpE4M9MS/FuzWvJvJU+cJWe1wm/A89t8VTg=
-        
-        ## 🌐 phpMyAdmin
-        
-        - URL: http://localhost:8080
-        - Login: shopware_prod / B261Px+gvpE4M9MS/FuzWvJvJU+cJWe1wm/A89t8VTg=
-        EOF
-        
-        echo "✅ Mittwald-Deployment-Paket erstellt"
         
     - name: Upload deployment package
       uses: actions/upload-artifact@v4
@@ -105,25 +37,8 @@ jobs:
         retention-days: 30
         
     - name: Deploy to Mittwald Studio
-      run: |
-        echo "🚀 Deploye Datenbank-Container zu Mittwald Studio..."
-        
-        # Mittwald API verwenden um Stack zu deployen
-        curl -X POST \
-          -H "Authorization: Bearer ${{ secrets.MITTWALD_API_TOKEN }}" \
-          -H "Content-Type: application/json" \
-          -d '{
-            "stackId": "${{ secrets.MITTWALD_STACK_ID }}",
-            "dockerCompose": "'$(cat mittwald-deployment/docker-compose-database-only.yml | base64 -w 0)'",
-            "environment": {
-              "MYSQL_PASSWORD": "${{ secrets.MYSQL_PASSWORD }}",
-              "MYSQL_ROOT_PASSWORD": "${{ secrets.MYSQL_ROOT_PASSWORD }}",
-              "SHOPWARE_SECRET": "${{ secrets.SHOPWARE_SECRET }}"
-            }
-          }' \
-          https://api.mittwald.de/v1/stacks/deploy
-        
-        echo "✅ Datenbank-Container erfolgreich zu Mittwald deployed!"
-        echo "📋 Container verfügbar:"
-        echo "- MariaDB: Port 3306"
-        echo "- phpMyAdmin: Port 8080"
+      uses: mittwald/deploy-container-action@v1.0.1
+      with:
+        api_token: ${{ secrets.MITTWALD_API_TOKEN }}
+        stack_id: ${{ secrets.MITTWALD_STACK_ID }}
+        stack_file: "${{ github.workspace }}/configs/stack.yaml"
